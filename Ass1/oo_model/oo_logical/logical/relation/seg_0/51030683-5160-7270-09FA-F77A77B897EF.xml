@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="gender_passenger_fk" directorySegmentName="seg_0" id="51030683-5160-7270-09FA-F77A77B897EF">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-29 10:47:21 UTC</createdTime>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<sourcePk>1AE3DA5E-47FF-0CC0-CDA5-D56044834033</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>identifies</nameOnSource>
+<nameOnTarget> </nameOnTarget>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>61381B20-EDF6-6C99-5BEB-A8EE870D75B6</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>6943960E-617A-BF42-CE3E-0E5149C5F59F</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

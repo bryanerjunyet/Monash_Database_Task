@@ -1,0 +1,107 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="DE97E8F5-DD07-E758-9A22-A6F8EF4A017B" name="PORT">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:05:54 UTC</createdTime>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="port_code" id="559CC5E9-6F26-2301-7B73-0B6673810A07">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:06:02 UTC</createdTime>
+<commentInRDBMS><![CDATA[Port code char (Eg. AUSYD)]]></commentInRDBMS>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>5</dataTypeSize>
+<ownDataTypeParameters>5,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="port_name" id="93CF8793-054B-442D-85D0-7349B9C58C25">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:06:39 UTC</createdTime>
+<commentInRDBMS><![CDATA[Port name]]></commentInRDBMS>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="port_latitude" id="C21F0DE6-BACA-441D-AA9B-CFD2FED646DD">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:07:59 UTC</createdTime>
+<commentInRDBMS><![CDATA[Port latitude location]]></commentInRDBMS>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>8</dataTypePrecision>
+<dataTypeScale>6</dataTypeScale>
+<ownDataTypeParameters>,8,6</ownDataTypeParameters>
+</Attribute>
+<Attribute name="port_longitude" id="7F9D9F05-B872-DED9-46BE-7034327D07F4">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:09:53 UTC</createdTime>
+<commentInRDBMS><![CDATA[Port longitude location]]></commentInRDBMS>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>9</dataTypePrecision>
+<dataTypeScale>6</dataTypeScale>
+<ownDataTypeParameters>,9,6</ownDataTypeParameters>
+</Attribute>
+<Attribute name="country_code" id="CD099927-A9DB-0C5E-D432-1301FB026C68">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-27 13:44:04 UTC</createdTime>
+<commentInRDBMS><![CDATA[Country code char (Eg. AUS)]]></commentInRDBMS>
+<generatorID>5B01840E-8E86-CAB9-15BA-144AFC54292E</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<referedAttribute>EACB79CB-ED86-B434-C27D-4F43417E2EA9</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>3</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="2F687C4E-61EC-155C-F05F-86D98918E8D5" name="PORT PK">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:06:27 UTC</createdTime>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>559CC5E9-6F26-2301-7B73-0B6673810A07</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

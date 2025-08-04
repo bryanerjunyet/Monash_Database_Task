@@ -1,0 +1,119 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="DB2EE5EC-BF14-38AC-F57F-D731341E999F" name="CRUISE">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>5A8F1341-4EEE-92B5-D52D-C0D5C56D6BDF</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="cruise_id" id="240829BB-FB18-EBB7-C8DF-21EEFC987197">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cruise identification number (Eg. 1234)]]></commentInRDBMS>
+<generatorID>3AEBB50A-D2A0-4BB8-42B2-3CC132FD83B0</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="cruise_dep_datetime" id="65C19980-B79C-D0C5-C818-F9489F6E6C0D">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cruise departure date and time]]></commentInRDBMS>
+<generatorID>0C903ED2-D511-2227-09C0-C4BD657770DA</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="cruise_name" id="E5B5EA62-98D2-0C1D-0320-A18D012D27C6">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cruise name]]></commentInRDBMS>
+<generatorID>CB4E56CA-67DF-4D68-A46F-9173322D98B8</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="cruise_desc" id="7F339B39-2123-FEB7-23F7-04DE016ED139">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cruise description]]></commentInRDBMS>
+<generatorID>64E23D50-EB84-EF5E-D6F7-EBEAE4CDC4B6</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="cruise_cost" id="2F3B7413-EB1B-8D33-97B8-5369997C2050">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cruise cost per person]]></commentInRDBMS>
+<generatorID>2EA36CE0-3E54-7C0D-D017-387F3B483011</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>8</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,8,2</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ship_code" id="D477F30E-E1C4-01FE-7955-279857FBB35F">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Ship code number (Eg. AUS102)]]></commentInRDBMS>
+<generatorID>0FDE31AE-ADE3-43C4-6101-77B8AF870E76</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>6</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="13641B52-D45D-ED1E-C2DA-63F2A4BE6D16" referredColumn="1451D407-06EA-93AD-245A-3CC8FEB14E9B"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="7DB2779B-3A9F-13B7-B270-2EE66B7E559C" name="CRUISE_PK">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>C7D2DAB8-0EB5-4036-D112-542AACA8E7AB</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="240829BB-FB18-EBB7-C8DF-21EEFC987197"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DC4D2008-E948-D685-EA2E-71CC28BE70C7" name="ship_cruise_fk">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>66B73B69-5F88-6686-8709-763A2E5000DE</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D477F30E-E1C4-01FE-7955-279857FBB35F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

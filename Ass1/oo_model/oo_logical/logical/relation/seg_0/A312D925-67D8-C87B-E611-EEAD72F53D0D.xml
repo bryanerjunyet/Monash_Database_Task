@@ -1,0 +1,22 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="passenger_guardian_fk" directorySegmentName="seg_0" id="A312D925-67D8-C87B-E611-EEAD72F53D0D">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 01:10:41 UTC</createdTime>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<sourcePk>721E1C39-5B7E-CD51-BCA3-6DDDD2526B83</sourcePk>
+<targetPk>721E1C39-5B7E-CD51-BCA3-6DDDD2526B83</targetPk>
+<identifying>false</identifying>
+<nameOnSource>guardian of</nameOnSource>
+<nameOnTarget> </nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>*</sourceCardinality>
+<sourceEntity>6943960E-617A-BF42-CE3E-0E5149C5F59F</sourceEntity>
+<targetCardinalityString>1</targetCardinalityString>
+<targetEntity>6943960E-617A-BF42-CE3E-0E5149C5F59F</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

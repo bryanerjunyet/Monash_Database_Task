@@ -1,0 +1,142 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="51ACCDDD-61D1-B677-5D00-68BCD5073A48" name="MANIFEST">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>CC8ACFDE-BB49-56EB-E8A8-C4651BC1BE47</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="cruise_id" id="D20909CD-82BD-993F-B6AD-A484C8BDCB85">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cruise identification number (Eg. 1234)]]></commentInRDBMS>
+<generatorID>E3425717-1CED-673C-0D76-3CC6E7472B6D</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="EC924809-3580-DDF4-2D16-81AE0CC24CA9" referredColumn="240829BB-FB18-EBB7-C8DF-21EEFC987197"/>
+</associations>
+</Column>
+<Column name="passenger_id" id="0459BCA0-A40C-2075-4AD2-E9C012FDC903">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Passenger identification number]]></commentInRDBMS>
+<generatorID>6DF2F052-F022-B853-D246-EA2C50749CF1</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>7</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="17E42EDD-C351-C7DF-46C7-3FADF9F799C3" referredColumn="62F92265-B928-B4B5-6EDE-24DFC58563F0"/>
+</associations>
+</Column>
+<Column name="manifest_boa_datetime" id="1E76F2C0-3DF0-C487-FB07-160D7223F4AA">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Manifest record on guest boarding date and time (recorded only when boarded)]]></commentInRDBMS>
+<generatorID>86B8E94F-E7BA-2C0C-9496-1EAE6561C165</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="cabin_no" id="F5A1ED84-523F-226B-1134-9D41B0460167">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cabin number (Eg. B10)]]></commentInRDBMS>
+<generatorID>A435C55F-A8EA-EA38-630A-6B0D8BB0B8EF</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>3</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BA536F39-6CCC-60F2-1AFB-5FB0D16B3724" referredColumn="EA2FEBB5-7912-69C3-36DA-3C1324E82E1E"/>
+</associations>
+</Column>
+<Column name="ship_code" id="AC453966-55A7-76AF-8B06-0554EF90A451">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Ship code number (Eg. AUS102)]]></commentInRDBMS>
+<generatorID>EC11981A-7ECC-6B42-8781-2FE28BC1083F</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>6</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BA536F39-6CCC-60F2-1AFB-5FB0D16B3724" referredColumn="62558B3B-07D4-1A02-4B3B-B23AC38EBEF2"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="8CD3929A-C7CA-D5ED-71E8-40D1734E495D" name="MANIFEST_PK">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>DC99C56D-625A-59D3-AF35-48E47B687ABE</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D20909CD-82BD-993F-B6AD-A484C8BDCB85"/>
+<colUsage columnID="0459BCA0-A40C-2075-4AD2-E9C012FDC903"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D30E49C8-F409-4C36-6D65-28B4FE4DE991" name="cabin_manifest_fk">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>30EA9B0D-9C66-FF5E-5EE2-7E38D2B4E01B</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F5A1ED84-523F-226B-1134-9D41B0460167"/>
+<colUsage columnID="AC453966-55A7-76AF-8B06-0554EF90A451"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DEBA938C-DBE5-78C0-BDAB-7FD09CDAE298" name="cruise_manifest_fk">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>95407BF8-ADE8-427C-651F-9F2104A4AD60</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D20909CD-82BD-993F-B6AD-A484C8BDCB85"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1D98A38A-2913-536B-8363-09B5C9F53359" name="passenger_manifest_fk">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>DC31D707-7677-ED14-1443-32BDD08E5513</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0459BCA0-A40C-2075-4AD2-E9C012FDC903"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,101 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="1B5B0F7E-E14E-7218-60EC-BB3389195B62" name="CABIN">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>E8CDDF80-92A3-1AEB-B92A-3B3F6D0F977D</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="cabin_no" id="EA2FEBB5-7912-69C3-36DA-3C1324E82E1E">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cabin number (Eg. B10)]]></commentInRDBMS>
+<generatorID>1A41B4B4-B608-EF45-CA73-4D3B62E894F1</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>3</dataTypeSize>
+<ownDataTypeParameters>3,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ship_code" id="62558B3B-07D4-1A02-4B3B-B23AC38EBEF2">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Ship code number (Eg. AUS102)]]></commentInRDBMS>
+<generatorID>001B8AC2-D717-720C-50BC-0F30645A2DB8</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>6</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="646F4DFD-3E20-AB76-4AD6-55118F084704" referredColumn="1451D407-06EA-93AD-245A-3CC8FEB14E9B"/>
+</associations>
+</Column>
+<Column name="cabin_sleep_capacity" id="0AE88215-153F-CAFF-73C8-B32FEA405893">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cabin sleeping capacity]]></commentInRDBMS>
+<generatorID>AC7B8111-5FBD-3C1B-1289-808696D062D0</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="cabin_class" id="41971661-B068-B62F-361A-C7A8905E2787">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cabin class: I-Interior, O-Ocean view, B-Balcony, S-Suite]]></commentInRDBMS>
+<generatorID>AAF91915-24A6-4385-2262-823FA23E0470</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<constraintName>chk_cabin_class</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<listOfValues>
+<valueDef value="B" description="Balcony"/>
+<valueDef value="I" description="Interior"/>
+<valueDef value="O" description="Ocean view"/>
+<valueDef value="S" description="Suite"/>
+</listOfValues>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="EBD0D4BB-992D-5E7C-1396-A69FCACB1971" name="CABIN_PK">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>861C931B-1D5C-7C2A-9B2A-66784A887F0B</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EA2FEBB5-7912-69C3-36DA-3C1324E82E1E"/>
+<colUsage columnID="62558B3B-07D4-1A02-4B3B-B23AC38EBEF2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F0E6B079-84F6-AC57-4E80-AC373D4F2910" name="ship_cabin_fk">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>92757313-186F-8E7C-9B6B-72657BED3AB0</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="62558B3B-07D4-1A02-4B3B-B23AC38EBEF2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

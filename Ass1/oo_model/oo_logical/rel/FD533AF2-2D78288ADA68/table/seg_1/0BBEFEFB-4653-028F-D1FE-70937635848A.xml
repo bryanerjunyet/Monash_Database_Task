@@ -1,0 +1,178 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="0BBEFEFB-4653-028F-D1FE-70937635848A" name="PASSENGER">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>6943960E-617A-BF42-CE3E-0E5149C5F59F</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="passenger_id" id="62F92265-B928-B4B5-6EDE-24DFC58563F0">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Passenger identification number]]></commentInRDBMS>
+<generatorID>2EB8A2F1-8C14-1CCA-857D-43B44402781C</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>7</dataTypePrecision>
+<ownDataTypeParameters>,7,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="passenger_fname" id="21A35851-0915-E089-6D88-3B20A19BA2EC">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Passenger first name]]></commentInRDBMS>
+<generatorID>8EE46CDD-56C4-0860-C4C5-32DAF3C59F04</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="passenger_lname" id="8BC20775-D8C2-53D7-EBDC-FE451C041309">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Passenger last name]]></commentInRDBMS>
+<generatorID>B05434B4-FC89-1046-DACF-9B6999D9ED78</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="passenger_birth_date" id="25BB344C-E06F-CA50-66CA-3694C9332B2D">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Passenger birth date]]></commentInRDBMS>
+<generatorID>A5BCC0DB-CE39-DC02-C1F0-93AF0ACFD7A8</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="passenger_phone_no" id="44C32360-27EF-A6CB-706F-007CB51ABEC3">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Passenger phone number (for minors no phone number required)]]></commentInRDBMS>
+<generatorID>340FAF9A-377B-A188-9D65-2A755892479A</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="gender_id" id="DC81FF4E-1846-F343-98E8-DCA82C2824AD">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Gender identification number]]></commentInRDBMS>
+<generatorID>6E8D10EF-333B-BDB4-D83E-E510A5D8D05C</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="35BB45A4-CC0A-3639-4B19-CB818A457B44" referredColumn="04FB97B8-99E7-49F2-D3A5-7ED734F4D897"/>
+</associations>
+</Column>
+<Column name="address_id" id="B31ED72B-1EA8-2ED3-BB31-31E4724AD645">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Passenger address identifier]]></commentInRDBMS>
+<generatorID>AACA0276-C8F6-44E6-943B-0BBE8956A0C6</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="75BA8E4F-93DE-885D-09C7-7CB4AF17A836" referredColumn="F6E8A67E-E085-F4F2-B183-F1C39C7A8844"/>
+</associations>
+</Column>
+<Column name="guardian_id" id="72F2C535-1F79-0514-ACA7-DC1E0394A53B">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<commentInRDBMS><![CDATA[Passenger identification number]]></commentInRDBMS>
+<generatorID>6F270015-8EFC-AF39-4DAA-EDA00BB1037D</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>7</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="062131DF-FA36-7DBA-5AE3-0802BF922639" referredColumn="62F92265-B928-B4B5-6EDE-24DFC58563F0"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="33090D96-A6B6-431F-0DC2-E6085A841B00" name="PASSENGER_PK">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>721E1C39-5B7E-CD51-BCA3-6DDDD2526B83</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="62F92265-B928-B4B5-6EDE-24DFC58563F0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="AE2CF1DB-907E-A4FE-954D-4D82FEB9B408" name="address_passenger">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>143C2312-582B-4E6C-7ED1-1A54E2E9F7C5</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B31ED72B-1EA8-2ED3-BB31-31E4724AD645"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="EAD2E733-46EE-1DDF-904A-42883CE46517" name="gender_passenger_fk">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>51030683-5160-7270-09FA-F77A77B897EF</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DC81FF4E-1846-F343-98E8-DCA82C2824AD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="00F10ACA-23D4-EB0B-DFA0-899527A21C8A" name="passenger_guardian_fk">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-30 09:15:40 UTC</createdTime>
+<generatorID>A312D925-67D8-C87B-E611-EEAD72F53D0D</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="72F2C535-1F79-0514-ACA7-DC1E0394A53B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

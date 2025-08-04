@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="cruise_manifest_fk" directorySegmentName="seg_0" id="95407BF8-ADE8-427C-651F-9F2104A4AD60">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:53:35 UTC</createdTime>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<sourcePk>C7D2DAB8-0EB5-4036-D112-542AACA8E7AB</sourcePk>
+<identifying>true</identifying>
+<nameOnSource>recorded by</nameOnSource>
+<nameOnTarget> </nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>5A8F1341-4EEE-92B5-D52D-C0D5C56D6BDF</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>CC8ACFDE-BB49-56EB-E8A8-C4651BC1BE47</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

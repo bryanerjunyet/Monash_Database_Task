@@ -1,0 +1,99 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="539F6F0C-508A-5D9A-3624-E3C75A58CB71" name="ITINERARY">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:01:08 UTC</createdTime>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="itinerary_datetime" id="2743BD52-BE56-7F5E-E828-AC3E138D4D6F">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:01:15 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cruise itinerary date and time]]></commentInRDBMS>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="cruise_id" id="743B6C83-144C-215E-0A15-FAC197B784A8">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:32:33 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cruise identification number (Eg. 1234)]]></commentInRDBMS>
+<generatorID>C30368E7-D6C6-066A-7314-E607F2157A85</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<referedAttribute>3AEBB50A-D2A0-4BB8-42B2-3CC132FD83B0</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="itinerary_activity" id="73950C9C-E9A9-9E3A-DFA5-C4232FC84E89">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:04:09 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cruise departure (D) or arrival (A) activity]]></commentInRDBMS>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<constraintName>chk_itinerary_activity</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<listOfValues>
+<valueDef value="A" description="Arrival"/>
+<valueDef value="D" description="Depart"/>
+</listOfValues>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="port_code" id="6B7E8FAB-47E3-174C-7294-78ACBFD2F77B">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:35:34 UTC</createdTime>
+<commentInRDBMS><![CDATA[Port code char (Eg. AUSYD)]]></commentInRDBMS>
+<generatorID>DC842292-D3A8-67F3-986F-C34A17392663</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<referedAttribute>559CC5E9-6F26-2301-7B73-0B6673810A07</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>5</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="4A23C390-C9B8-0F94-8922-56AE689A6D6D" name="ITINERARY PK">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:01:29 UTC</createdTime>
+<ownerDesignName>oo_logical</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>2743BD52-BE56-7F5E-E828-AC3E138D4D6F</attributeRef>
+<attributeRef>743B6C83-144C-215E-0A15-FAC197B784A8</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

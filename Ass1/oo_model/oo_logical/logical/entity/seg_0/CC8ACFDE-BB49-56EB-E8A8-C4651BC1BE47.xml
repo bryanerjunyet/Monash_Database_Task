@@ -1,0 +1,113 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="CC8ACFDE-BB49-56EB-E8A8-C4651BC1BE47" name="MANIFEST">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-25 23:58:34 UTC</createdTime>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="cruise_id" id="E3425717-1CED-673C-0D76-3CC6E7472B6D">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:53:35 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cruise identification number (Eg. 1234)]]></commentInRDBMS>
+<generatorID>95407BF8-ADE8-427C-651F-9F2104A4AD60</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<referedAttribute>3AEBB50A-D2A0-4BB8-42B2-3CC132FD83B0</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="passenger_id" id="6DF2F052-F022-B853-D246-EA2C50749CF1">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:55:23 UTC</createdTime>
+<commentInRDBMS><![CDATA[Passenger identification number]]></commentInRDBMS>
+<generatorID>DC31D707-7677-ED14-1443-32BDD08E5513</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<referedAttribute>2EB8A2F1-8C14-1CCA-857D-43B44402781C</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>7</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="manifest_boa_datetime" id="86B8E94F-E7BA-2C0C-9496-1EAE6561C165">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 01:04:47 UTC</createdTime>
+<commentInRDBMS><![CDATA[Manifest record on guest boarding date and time (recorded only when boarded)]]></commentInRDBMS>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="cabin_no" id="A435C55F-A8EA-EA38-630A-6B0D8BB0B8EF">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-29 10:37:01 UTC</createdTime>
+<commentInRDBMS><![CDATA[Cabin number (Eg. B10)]]></commentInRDBMS>
+<generatorID>30EA9B0D-9C66-FF5E-5EE2-7E38D2B4E01B</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<referedAttribute>1A41B4B4-B608-EF45-CA73-4D3B62E894F1</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>3</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ship_code" id="EC11981A-7ECC-6B42-8781-2FE28BC1083F">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-29 10:37:04 UTC</createdTime>
+<commentInRDBMS><![CDATA[Ship code number (Eg. AUS102)]]></commentInRDBMS>
+<generatorID>30EA9B0D-9C66-FF5E-5EE2-7E38D2B4E01B</generatorID>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<referedAttribute>001B8AC2-D717-720C-50BC-0F30645A2DB8</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>6</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="DC99C56D-625A-59D3-AF35-48E47B687ABE" name="MANIFEST PK">
+<createdBy>erjun</createdBy>
+<createdTime>2025-04-26 00:53:35 UTC</createdTime>
+<ownerDesignName>oo_logical</ownerDesignName>
+<engineerTo>
+<item key="FD533AF2-631A-38E8-3A49-2D78288ADA68" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<newElementsIDs>95407BF8-ADE8-427C-651F-9F2104A4AD60,DC31D707-7677-ED14-1443-32BDD08E5513</newElementsIDs>
+<usedAttributes>
+<attributeRef>E3425717-1CED-673C-0D76-3CC6E7472B6D</attributeRef>
+<attributeRef>6DF2F052-F022-B853-D246-EA2C50749CF1</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
