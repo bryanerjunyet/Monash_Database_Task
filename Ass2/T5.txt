@@ -1,0 +1,1078 @@
+SQL> 
+SQL> -- =======================================
+SQL> -- TASK 5a: Elapsed Time Function
+SQL> -- =======================================
+SQL> CREATE OR REPLACE FUNCTION CALCULATE_ELAPSED_TIME (
+  2      P_START_TIME  IN VARCHAR2,
+  3      P_FINISH_TIME IN VARCHAR2
+  4  ) RETURN VARCHAR2 IS
+  5      V_START DATE;
+  6      V_FINISH DATE;
+  7      V_ELAPSED DATE;
+  8  BEGIN
+  9      IF P_START_TIME IS NULL OR P_FINISH_TIME IS NULL THEN
+ 10          RETURN '00:00:00';
+ 11      END IF;
+ 12  
+ 13      V_START := TO_DATE(P_START_TIME, 'HH24:MI:SS');
+ 14      V_FINISH := TO_DATE(P_FINISH_TIME, 'HH24:MI:SS');
+ 15      IF V_FINISH < V_START THEN
+ 16          V_FINISH := V_FINISH + 1;
+ 17      END IF;
+ 18      V_ELAPSED := TO_DATE('00:00:00','HH24:MI:SS') + (V_FINISH - V_START);
+ 19      RETURN TO_CHAR(V_ELAPSED, 'HH24:MI:SS');
+ 20  END;
+ 21  /
+
+Function CALCULATE_ELAPSED_TIME compiled
+
+SQL> 
+SQL> -- Test Harness for 5a
+SQL> -- Test case 1: Normal case
+SQL> DECLARE
+  2      V_ACTUAL   VARCHAR2(20);
+  3      V_EXPECTED VARCHAR2(20) := '01:15:30';
+  4  BEGIN
+  5      V_ACTUAL := CALCULATE_ELAPSED_TIME('08:30:00', '09:45:30');
+  6      IF V_ACTUAL = V_EXPECTED THEN
+  7          DBMS_OUTPUT.PUT_LINE('Test 1 PASS');
+  8      ELSE
+  9          DBMS_OUTPUT.PUT_LINE('Test 1 FAIL: Expected '
+ 10                               || V_EXPECTED
+ 11                               || ', got '
+ 12                               || V_ACTUAL);
+ 13      END IF;
+ 14  
+ 15  END;
+ 16  /
+Test 1 PASS
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Test 2: Overnight run (start late, finish early next day)
+SQL> DECLARE
+  2      V_ACTUAL   VARCHAR2(20);
+  3      V_EXPECTED VARCHAR2(20) := '01:45:30';
+  4  BEGIN
+  5      V_ACTUAL := CALCULATE_ELAPSED_TIME('23:30:00', '01:15:30');
+  6      IF V_ACTUAL = V_EXPECTED THEN
+  7          DBMS_OUTPUT.PUT_LINE('Test 2 PASS');
+  8      ELSE
+  9          DBMS_OUTPUT.PUT_LINE('Test 2 FAIL: Expected '
+ 10                               || V_EXPECTED
+ 11                               || ', got '
+ 12                               || V_ACTUAL);
+ 13      END IF;
+ 14  
+ 15  END;
+ 16  /
+Test 2 PASS
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Test 3: Null input
+SQL> DECLARE
+  2      V_ACTUAL1  VARCHAR2(20);
+  3      V_ACTUAL2  VARCHAR2(20);
+  4      V_ACTUAL3  VARCHAR2(20);
+  5      V_EXPECTED VARCHAR2(20) := '00:00:00';
+  6      V_PASS     BOOLEAN := TRUE;
+  7  BEGIN
+  8      V_ACTUAL1 := CALCULATE_ELAPSED_TIME(NULL, '01:15:30');
+  9      V_ACTUAL2 := CALCULATE_ELAPSED_TIME('08:30:00', NULL);
+ 10      V_ACTUAL3 := CALCULATE_ELAPSED_TIME(NULL, NULL);
+ 11      IF V_ACTUAL1 != V_EXPECTED THEN
+ 12          DBMS_OUTPUT.PUT_LINE('Test 3.1 FAIL: Expected '
+ 13                               || V_EXPECTED
+ 14                               || ', got '
+ 15                               || V_ACTUAL1);
+ 16          V_PASS := FALSE;
+ 17      END IF;
+ 18  
+ 19      IF V_ACTUAL2 != V_EXPECTED THEN
+ 20          DBMS_OUTPUT.PUT_LINE('Test 3.2 FAIL: Expected '
+ 21                               || V_EXPECTED
+ 22                               || ', got '
+ 23                               || V_ACTUAL2);
+ 24          V_PASS := FALSE;
+ 25      END IF;
+ 26  
+ 27      IF V_ACTUAL3 != V_EXPECTED THEN
+ 28          DBMS_OUTPUT.PUT_LINE('Test 3.3 FAIL: Expected '
+ 29                               || V_EXPECTED
+ 30                               || ', got '
+ 31                               || V_ACTUAL3);
+ 32          V_PASS := FALSE;
+ 33      END IF;
+ 34  
+ 35      IF V_PASS THEN
+ 36          DBMS_OUTPUT.PUT_LINE('Test 3 PASS');
+ 37      END IF;
+ 38  END;
+ 39  /
+Test 3 PASS
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> 
+SQL> -- =======================================
+SQL> -- TASK 5b: Entry Completion Trigger
+SQL> -- =======================================
+SQL> CREATE OR REPLACE TRIGGER TRG_ENTRY_COMPLETION BEFORE
+  2      UPDATE OF ENTRY_FINISHTIME ON ENTRY
+  3      FOR EACH ROW
+  4      WHEN ( NEW.ENTRY_FINISHTIME IS NOT NULL
+  5             AND OLD.ENTRY_FINISHTIME IS NULL )
+  6  DECLARE
+  7      V_ELAPSED VARCHAR2(8);
+  8  BEGIN
+  9      -- Only proceed if start time exists
+ 10      IF :NEW.ENTRY_STARTTIME IS NOT NULL THEN
+ 11          -- Calculate elapsed time
+ 12          V_ELAPSED := CALCULATE_ELAPSED_TIME(
+ 13              TO_CHAR(:NEW.ENTRY_STARTTIME,
+ 14                      'HH24:MI:SS'),
+ 15              TO_CHAR(:NEW.ENTRY_FINISHTIME,
+ 16                      'HH24:MI:SS')
+ 17          );
+ 18  
+ 19          -- Update elapsed time
+ 20          :NEW.ENTRY_ELAPSEDTIME := TO_DATE ( V_ELAPSED, 'HH24:MI:SS' );
+ 21          DBMS_OUTPUT.PUT_LINE('Updated elapsed time for event ID - '
+ 22                               || :NEW.EVENT_ID
+ 23                               || ' and entry no -'
+ 24                               || :NEW.ENTRY_NO
+ 25                               || ' to '
+ 26                               || V_ELAPSED);
+ 27  
+ 28          -- Update competitor's completed events count
+ 29          UPDATE COMPETITOR
+ 30          SET
+ 31              COMP_COMPLETED_EVENTS = COMP_COMPLETED_EVENTS + 1
+ 32          WHERE
+ 33              COMP_NO = :NEW.COMP_NO;
+ 34  
+ 35          DBMS_OUTPUT.PUT_LINE('Incremented completed events for competitor ' || :NEW.COMP_NO);
+ 36      END IF;
+ 37  EXCEPTION
+ 38      WHEN OTHERS THEN
+ 39          DBMS_OUTPUT.PUT_LINE('Error in trigger: ' || SQLERRM);
+ 40          RAISE;
+ 41  END;
+ 42  /
+
+Trigger TRG_ENTRY_COMPLETION compiled
+
+SQL> 
+SQL> -- Test Harness for 5b
+SQL> 
+SQL> -- Create test entry with start time but no finish time
+SQL> DECLARE
+  2      V_EVENT_ID NUMBER;
+  3  BEGIN
+  4      -- Get an event ID for testing
+  5      SELECT
+  6          EVENT_ID
+  7      INTO V_EVENT_ID
+  8      FROM
+  9          EVENT
+ 10      WHERE
+ 11              CARN_DATE = TO_DATE('29/JUN/2025', 'DD/MON/YYYY')
+ 12          AND ROWNUM = 1;
+ 13  
+ 14      -- Create test entry
+ 15      INSERT INTO ENTRY (
+ 16          EVENT_ID,
+ 17          ENTRY_NO,
+ 18          ENTRY_STARTTIME,
+ 19          COMP_NO
+ 20      ) VALUES ( V_EVENT_ID,
+ 21                 (
+ 22                     SELECT
+ 23                         NVL(
+ 24                             MAX(ENTRY_NO),
+ 25                             0
+ 26                         ) + 1
+ 27                     FROM
+ 28                         ENTRY
+ 29                     WHERE
+ 30                         EVENT_ID = V_EVENT_ID
+ 31                 ),
+ 32                 TO_DATE('08:30:00', 'HH24:MI:SS'),
+ 33                 1  -- Testing with competitor 1
+ 34                  );
+ 35  
+ 36      COMMIT;
+ 37      DBMS_OUTPUT.PUT_LINE('Created test entry for trigger testing');
+ 38  END;
+ 39  /
+Created test entry for trigger testing
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Before values
+SQL> SELECT
+  2      E.EVENT_ID,
+  3      E.ENTRY_NO,
+  4      TO_CHAR(E.ENTRY_STARTTIME, 'HH24:MI:SS')   AS START_TIME,
+  5      TO_CHAR(E.ENTRY_FINISHTIME, 'HH24:MI:SS')  AS FINISH_TIME,
+  6      TO_CHAR(E.ENTRY_ELAPSEDTIME, 'HH24:MI:SS') AS ELAPSED_TIME,
+  7      C.COMP_NO,
+  8      C.COMP_FNAME,
+  9      C.COMP_LNAME,
+ 10      C.COMP_COMPLETED_EVENTS
+ 11  FROM
+ 12           ENTRY E
+ 13      JOIN COMPETITOR C ON E.COMP_NO = C.COMP_NO
+ 14  WHERE
+ 15      C.COMP_NO = 1
+ 16  ORDER BY
+ 17      E.EVENT_ID,
+ 18      E.ENTRY_NO;
+
+  EVENT_ID   ENTRY_NO START_TI FINISH_T ELAPSED_    COMP_NO COMP_FNAME                     COMP_LNAME                     COMP_COMPLETED_EVENTS
+---------- ---------- -------- -------- -------- ---------- ------------------------------ ------------------------------ ---------------------
+         1          1 09:30:00 10:05:15 00:35:15          1 Charmander                     Chin                                               3
+         3          3 09:00:00 09:40:00 00:40:00          1 Charmander                     Chin                                               3
+         6          2 08:30:00 08:58:30 00:28:30          1 Charmander                     Chin                                               3
+        13          2 08:30:00                            1 Charmander                     Chin                                               3
+
+SQL> 
+SQL> -- Update the test entry with finish time
+SQL> DECLARE
+  2      V_EVENT_ID NUMBER;
+  3      V_ENTRY_NO NUMBER;
+  4  BEGIN
+  5      -- Get the test entry created
+  6      SELECT
+  7          EVENT_ID,
+  8          ENTRY_NO
+  9      INTO
+ 10          V_EVENT_ID,
+ 11          V_ENTRY_NO
+ 12      FROM
+ 13          ENTRY
+ 14      WHERE
+ 15          ENTRY_STARTTIME IS NOT NULL
+ 16          AND ENTRY_FINISHTIME IS NULL
+ 17          AND COMP_NO = 1
+ 18          AND ROWNUM = 1;
+ 19  
+ 20      -- Update with finish time
+ 21      UPDATE ENTRY
+ 22      SET
+ 23          ENTRY_FINISHTIME = TO_DATE('09:15:30', 'HH24:MI:SS')
+ 24      WHERE
+ 25              EVENT_ID = V_EVENT_ID
+ 26          AND ENTRY_NO = V_ENTRY_NO;
+ 27  
+ 28      COMMIT;
+ 29      DBMS_OUTPUT.PUT_LINE('Updated finished time for event ID - '
+ 30                           || V_EVENT_ID
+ 31                           || 'entry no -'
+ 32                           || V_ENTRY_NO);
+ 33  EXCEPTION
+ 34      WHEN NO_DATA_FOUND THEN
+ 35          DBMS_OUTPUT.PUT_LINE('No uncompleted entries found for testing');
+ 36  END;
+ 37  /
+Updated elapsed time for event ID - 13 and entry no -2 to 00:45:30
+Incremented completed events for competitor 1
+Updated finished time for event ID - 13entry no -2
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- After values
+SQL> SELECT
+  2      E.EVENT_ID,
+  3      E.ENTRY_NO,
+  4      TO_CHAR(E.ENTRY_STARTTIME, 'HH24:MI:SS')   AS START_TIME,
+  5      TO_CHAR(E.ENTRY_FINISHTIME, 'HH24:MI:SS')  AS FINISH_TIME,
+  6      TO_CHAR(E.ENTRY_ELAPSEDTIME, 'HH24:MI:SS') AS ELAPSED_TIME,
+  7      C.COMP_NO,
+  8      C.COMP_FNAME,
+  9      C.COMP_LNAME,
+ 10      C.COMP_COMPLETED_EVENTS
+ 11  FROM
+ 12           ENTRY E
+ 13      JOIN COMPETITOR C ON E.COMP_NO = C.COMP_NO
+ 14  WHERE
+ 15      C.COMP_NO = 1
+ 16  ORDER BY
+ 17      E.EVENT_ID,
+ 18      E.ENTRY_NO;
+
+  EVENT_ID   ENTRY_NO START_TI FINISH_T ELAPSED_    COMP_NO COMP_FNAME                     COMP_LNAME                     COMP_COMPLETED_EVENTS
+---------- ---------- -------- -------- -------- ---------- ------------------------------ ------------------------------ ---------------------
+         1          1 09:30:00 10:05:15 00:35:15          1 Charmander                     Chin                                               4
+         3          3 09:00:00 09:40:00 00:40:00          1 Charmander                     Chin                                               4
+         6          2 08:30:00 08:58:30 00:28:30          1 Charmander                     Chin                                               4
+        13          2 08:30:00 09:15:30 00:45:30          1 Charmander                     Chin                                               4
+
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> 
+SQL> -- =======================================
+SQL> -- TASK 5c: Entry Registration Procedure
+SQL> -- =======================================
+SQL> CREATE OR REPLACE PROCEDURE PRC_ENTRY_REGISTRATION (
+  2      P_COMP_NO         IN NUMBER,
+  3      P_CARN_NAME       IN VARCHAR2,
+  4      P_EVENT_TYPE_DESC IN VARCHAR2,
+  5      P_TEAM_NAME       IN VARCHAR2,
+  6      P_CHARITY_NAME    IN VARCHAR2,
+  7      P_OUTPUT          OUT VARCHAR2
+  8  ) IS
+  9  
+ 10      V_CARN_DATE          DATE;
+ 11      V_EVENT_ID           NUMBER;
+ 12      V_EVENTTYPE_CODE     VARCHAR2(3);
+ 13      V_CHAR_ID            NUMBER;
+ 14      V_TEAM_ID            NUMBER;
+ 15      V_ENTRY_NO           NUMBER;
+ 16      V_COMP_EXISTS        NUMBER;
+ 17      V_TEAM_EXISTS        NUMBER;
+ 18      V_EVENT_EXISTS       NUMBER;
+ 19      V_CHARITY_EXISTS     NUMBER;
+ 20      V_CARNIVAL_EXISTS    NUMBER;
+ 21      V_ALREADY_REGISTERED NUMBER;
+ 22      V_ENTRY_ID           NUMBER;
+ 23  BEGIN
+ 24      P_OUTPUT := '';
+ 25  
+ 26      -- Check if competitor exists
+ 27      SELECT
+ 28          COUNT(*)
+ 29      INTO V_COMP_EXISTS
+ 30      FROM
+ 31          COMPETITOR
+ 32      WHERE
+ 33          COMP_NO = P_COMP_NO;
+ 34  
+ 35      IF V_COMP_EXISTS = 0 THEN
+ 36          P_OUTPUT := 'Competitor '
+ 37                      || P_COMP_NO
+ 38                      || ' does not exist';
+ 39          RETURN;
+ 40      END IF;
+ 41  
+ 42      -- Check if carnival exists
+ 43      SELECT
+ 44          COUNT(*),
+ 45          MAX(CARN_DATE)
+ 46      INTO
+ 47          V_CARNIVAL_EXISTS,
+ 48          V_CARN_DATE
+ 49      FROM
+ 50          CARNIVAL
+ 51      WHERE
+ 52          UPPER(CARN_NAME) = UPPER(P_CARN_NAME);
+ 53  
+ 54      IF V_CARNIVAL_EXISTS = 0 THEN
+ 55          P_OUTPUT := 'Carnival '
+ 56                      || P_CARN_NAME
+ 57                      || ' does not exist';
+ 58          RETURN;
+ 59      END IF;
+ 60  
+ 61      -- Check if event type exists
+ 62      SELECT
+ 63          COUNT(*),
+ 64          MAX(EVENTTYPE_CODE)
+ 65      INTO
+ 66          V_EVENT_EXISTS,
+ 67          V_EVENTTYPE_CODE
+ 68      FROM
+ 69          EVENTTYPE
+ 70      WHERE
+ 71          UPPER(EVENTTYPE_DESC) = UPPER(P_EVENT_TYPE_DESC);
+ 72  
+ 73      IF V_EVENT_EXISTS = 0 THEN
+ 74          P_OUTPUT := 'Event type '
+ 75                      || P_EVENT_TYPE_DESC
+ 76                      || ' does not exist';
+ 77          RETURN;
+ 78      END IF;
+ 79  
+ 80      -- Check if event exists for this carnival
+ 81      SELECT
+ 82          COUNT(*),
+ 83          MAX(EVENT_ID)
+ 84      INTO
+ 85          V_EVENT_EXISTS,
+ 86          V_EVENT_ID
+ 87      FROM
+ 88          EVENT
+ 89      WHERE
+ 90              CARN_DATE = V_CARN_DATE
+ 91          AND EVENTTYPE_CODE = V_EVENTTYPE_CODE;
+ 92  
+ 93      IF V_EVENT_EXISTS = 0 THEN
+ 94          P_OUTPUT := 'Event '
+ 95                      || P_EVENT_TYPE_DESC
+ 96                      || ' not offered at '
+ 97                      || P_CARN_NAME;
+ 98          RETURN;
+ 99      END IF;
+100  
+101      -- Check if competitor is already registered
+102      SELECT
+103          COUNT(*)
+104      INTO V_ALREADY_REGISTERED
+105      FROM
+106               ENTRY E
+107          JOIN EVENT EV ON E.EVENT_ID = EV.EVENT_ID
+108      WHERE
+109              E.COMP_NO = P_COMP_NO
+110          AND EV.CARN_DATE = V_CARN_DATE;
+111  
+112      IF V_ALREADY_REGISTERED > 0 THEN
+113          P_OUTPUT := 'Competitor '
+114                      || P_COMP_NO
+115                      || ' already registered for carnival '
+116                      || P_CARN_NAME;
+117          RETURN;
+118      END IF;
+119  
+120      -- Check if charity exists 
+121      IF P_CHARITY_NAME IS NOT NULL THEN
+122          SELECT
+123              COUNT(*),
+124              MAX(CHAR_ID)
+125          INTO
+126              V_CHARITY_EXISTS,
+127              V_CHAR_ID
+128          FROM
+129              CHARITY
+130          WHERE
+131              UPPER(CHAR_NAME) = UPPER(P_CHARITY_NAME);
+132  
+133          IF V_CHARITY_EXISTS = 0 THEN
+134              P_OUTPUT := 'Charity '
+135                          || P_CHARITY_NAME
+136                          || ' does not exist';
+137              RETURN;
+138          END IF;
+139  
+140      END IF;
+141  
+142      -- Get next entry number
+143      SELECT
+144          NVL(
+145              MAX(ENTRY_NO),
+146              0
+147          ) + 1
+148      INTO V_ENTRY_NO
+149      FROM
+150          ENTRY
+151      WHERE
+152          EVENT_ID = V_EVENT_ID;
+153  
+154      -- Create entry
+155      INSERT INTO ENTRY (
+156          EVENT_ID,
+157          ENTRY_NO,
+158          ENTRY_STARTTIME,
+159          ENTRY_FINISHTIME,
+160          ENTRY_ELAPSEDTIME,
+161          COMP_NO,
+162          TEAM_ID
+163      ) VALUES ( V_EVENT_ID,
+164                 V_ENTRY_NO,
+165                 NULL, 
+166                 NULL, 
+167                 NULL, 
+168                 P_COMP_NO,
+169                 NULL 
+170                  ) RETURNING ENTRY_NO INTO V_ENTRY_NO;
+171  
+172      -- Handle team registration
+173      IF P_TEAM_NAME IS NOT NULL THEN
+174          -- Check if team exists for this carnival
+175          SELECT
+176              COUNT(*),
+177              MAX(TEAM_ID)
+178          INTO
+179              V_TEAM_EXISTS,
+180              V_TEAM_ID
+181          FROM
+182              TEAM
+183          WHERE
+184                  UPPER(TEAM_NAME) = UPPER(P_TEAM_NAME)
+185              AND CARN_DATE = V_CARN_DATE;
+186  
+187          IF V_TEAM_EXISTS = 0 THEN
+188              -- Create new team
+189              INSERT INTO TEAM (
+190                  TEAM_ID,
+191                  TEAM_NAME,
+192                  CARN_DATE,
+193                  EVENT_ID,
+194                  ENTRY_NO
+195              ) VALUES ( TEAM_SEQ.NEXTVAL,
+196                         P_TEAM_NAME,
+197                         V_CARN_DATE,
+198                         V_EVENT_ID,
+199                         V_ENTRY_NO ) RETURNING TEAM_ID INTO V_TEAM_ID;
+200  
+201              -- Update entry with team ID
+202              UPDATE ENTRY
+203              SET
+204                  TEAM_ID = V_TEAM_ID
+205              WHERE
+206                      EVENT_ID = V_EVENT_ID
+207                  AND ENTRY_NO = V_ENTRY_NO;
+208  
+209              P_OUTPUT := 'Created new team '
+210                          || P_TEAM_NAME
+211                          || ' for carnival '
+212                          || P_CARN_NAME;
+213          ELSE
+214              -- Update entry with existing team ID
+215              UPDATE ENTRY
+216              SET
+217                  TEAM_ID = V_TEAM_ID
+218              WHERE
+219                      EVENT_ID = V_EVENT_ID
+220                  AND ENTRY_NO = V_ENTRY_NO;
+221  
+222              P_OUTPUT := 'Added to existing team '
+223                          || P_TEAM_NAME
+224                          || ' for carnival '
+225                          || P_CARN_NAME;
+226          END IF;
+227  
+228      END IF;
+229  
+230      -- Add charity support if provided
+231      IF P_CHARITY_NAME IS NOT NULL THEN
+232          INSERT INTO ENTRY_CHARITY (
+233              EVENT_ID,
+234              ENTRY_NO,
+235              CHAR_ID,
+236              CHARITY_PERCENTAGE
+237          ) VALUES ( V_EVENT_ID,
+238                     V_ENTRY_NO,
+239                     V_CHAR_ID,
+240                     100 
+241                      );
+242  
+243          P_OUTPUT := P_OUTPUT
+244                      || CHR(10)
+245                      || 'Supported a charity during registration.';
+246      ELSE
+247          P_OUTPUT := P_OUTPUT
+248                      || CHR(10)
+249                      || 'No charity supported';
+250      END IF;
+251  
+252      P_OUTPUT := P_OUTPUT
+253                  || CHR(10)
+254                  || 'Successfully registered competitor '
+255                  || P_COMP_NO
+256                  || ' for event '
+257                  || P_EVENT_TYPE_DESC
+258                  || ' at carnival '
+259                  || P_CARN_NAME
+260                  || ' with entry number '
+261                  || V_ENTRY_NO;
+262  
+263      COMMIT;
+264  EXCEPTION
+265      WHEN OTHERS THEN
+266          P_OUTPUT := 'Error: ' || SQLERRM;
+267          ROLLBACK;
+268  END;
+269  /
+
+Procedure PRC_ENTRY_REGISTRATION compiled
+
+SQL> 
+SQL> -- Test Harness for 5c
+SQL> 
+SQL> -- Test 1: Successful registration with new team
+SQL> 
+SQL> -- Before values
+SQL> SELECT
+  2      E.EVENT_ID,
+  3      E.ENTRY_NO,
+  4      C.COMP_FNAME,
+  5      C.COMP_LNAME,
+  6      T.TEAM_NAME,
+  7      CH.CHAR_NAME,
+  8      EC.CHARITY_PERCENTAGE
+  9  FROM
+ 10           ENTRY E
+ 11      JOIN COMPETITOR    C ON E.COMP_NO = C.COMP_NO
+ 12      LEFT JOIN TEAM          T ON E.TEAM_ID = T.TEAM_ID
+ 13      LEFT JOIN ENTRY_CHARITY EC ON E.EVENT_ID = EC.EVENT_ID
+ 14                                    AND E.ENTRY_NO = EC.ENTRY_NO
+ 15      LEFT JOIN CHARITY       CH ON EC.CHAR_ID = CH.CHAR_ID
+ 16  WHERE
+ 17      E.COMP_NO = 16;
+no rows selected
+SQL> 
+SQL> SELECT
+  2      TEAM_ID,
+  3      TEAM_NAME,
+  4      CARN_DATE
+  5  FROM
+  6      TEAM
+  7  WHERE
+  8      UPPER(TEAM_NAME) = UPPER('Genius League');
+no rows selected
+SQL> 
+SQL> -- Execute procedure
+SQL> DECLARE
+  2      V_OUTPUT VARCHAR2(1000);
+  3  BEGIN
+  4      PRC_ENTRY_REGISTRATION(16, -- comp_no (Wartortle Warles)
+  5       'RM Winter Series Caulfield 2025', -- carn_name
+  6       '5 Km Run', -- event_type_desc
+  7       'Genius League', -- team_name
+  8       'Amnesty International', -- charity_name
+  9                             V_OUTPUT);
+ 10      DBMS_OUTPUT.PUT_LINE(V_OUTPUT);
+ 11  END;
+ 12  /
+Created new team Genius League for carnival RM Winter Series Caulfield 2025
+Supported a charity during registration.
+Successfully registered competitor 16 for event 5 Km Run at carnival RM Winter Series Caulfield 2025 with entry number 3
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- After values
+SQL> SELECT
+  2      E.EVENT_ID,
+  3      E.ENTRY_NO,
+  4      C.COMP_FNAME,
+  5      C.COMP_LNAME,
+  6      T.TEAM_NAME,
+  7      CH.CHAR_NAME,
+  8      EC.CHARITY_PERCENTAGE
+  9  FROM
+ 10           ENTRY E
+ 11      JOIN COMPETITOR    C ON E.COMP_NO = C.COMP_NO
+ 12      LEFT JOIN TEAM          T ON E.TEAM_ID = T.TEAM_ID
+ 13      LEFT JOIN ENTRY_CHARITY EC ON E.EVENT_ID = EC.EVENT_ID
+ 14                                    AND E.ENTRY_NO = EC.ENTRY_NO
+ 15      LEFT JOIN CHARITY       CH ON EC.CHAR_ID = CH.CHAR_ID
+ 16  WHERE
+ 17      E.COMP_NO = 16;
+
+  EVENT_ID   ENTRY_NO COMP_FNAME                     COMP_LNAME                     TEAM_NAME                      CHAR_NAME                      CHARITY_PERCENTAGE
+---------- ---------- ------------------------------ ------------------------------ ------------------------------ ------------------------------ ------------------
+        12          3 Wartortle                      Warles                         Genius League                  Amnesty International                         100
+
+SQL> 
+SQL> SELECT
+  2      TEAM_ID,
+  3      TEAM_NAME,
+  4      CARN_DATE
+  5  FROM
+  6      TEAM
+  7  WHERE
+  8      UPPER(TEAM_NAME) = UPPER('Genius League');
+
+   TEAM_ID TEAM_NAME                      CARN_DAT
+---------- ------------------------------ --------
+       105 Genius League                  29/06/25
+
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> -- Test 2: Already registered
+SQL> 
+SQL> -- First register the competitor
+SQL> DECLARE
+  2      V_OUTPUT VARCHAR2(1000);
+  3  BEGIN
+  4      PRC_ENTRY_REGISTRATION(16, -- comp_no (Wartortle Warles)
+  5       'RM Winter Series Caulfield 2025', -- carn_name
+  6       '10 Km Run', -- event_type_desc
+  7       NULL, -- no team
+  8       NULL, -- no charity
+  9      V_OUTPUT);
+ 10      COMMIT;
+ 11  END;
+ 12  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Before values
+SQL> SELECT
+  2      E.EVENT_ID,
+  3      E.ENTRY_NO,
+  4      C.COMP_FNAME,
+  5      C.COMP_LNAME
+  6  FROM
+  7           ENTRY E
+  8      JOIN COMPETITOR C ON E.COMP_NO = C.COMP_NO
+  9  WHERE
+ 10      E.COMP_NO = 16;
+
+  EVENT_ID   ENTRY_NO COMP_FNAME                     COMP_LNAME                    
+---------- ---------- ------------------------------ ------------------------------
+        12          3 Wartortle                      Warles                        
+
+SQL> 
+SQL> -- Execute procedure (try to register again)
+SQL> DECLARE
+  2      V_OUTPUT VARCHAR2(1000);
+  3  BEGIN
+  4      PRC_ENTRY_REGISTRATION(16, -- comp_no (already registered)
+  5       'RM Winter Series Caulfield 2025', -- carn_name
+  6       '10 Km Run', -- event_type_desc
+  7       NULL, -- no team
+  8       NULL, -- no charity
+  9                             V_OUTPUT);
+ 10      DBMS_OUTPUT.PUT_LINE(V_OUTPUT);
+ 11  END;
+ 12  /
+Competitor 16 already registered for carnival RM Winter Series Caulfield 2025
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- After values (should only have one entry)
+SQL> SELECT
+  2      E.EVENT_ID,
+  3      E.ENTRY_NO,
+  4      C.COMP_FNAME,
+  5      C.COMP_LNAME
+  6  FROM
+  7           ENTRY E
+  8      JOIN COMPETITOR C ON E.COMP_NO = C.COMP_NO
+  9  WHERE
+ 10      E.COMP_NO = 16;
+
+  EVENT_ID   ENTRY_NO COMP_FNAME                     COMP_LNAME                    
+---------- ---------- ------------------------------ ------------------------------
+        12          3 Wartortle                      Warles                        
+
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> -- Test 3: Successful registration with existing team
+SQL> 
+SQL> -- First register the competitor with a team
+SQL> DECLARE
+  2      V_OUTPUT VARCHAR2(1000);
+  3  BEGIN
+  4      PRC_ENTRY_REGISTRATION(16, -- comp_no (Wartortle Warles)
+  5       'RM Winter Series Caulfield 2025', -- carn_name
+  6       '5 Km Run', -- event_type_desc
+  7       'Genius League', -- team_name
+  8       'Amnesty International', -- charity_name
+  9                             V_OUTPUT);
+ 10      COMMIT;
+ 11  END;
+ 12  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Before values
+SQL> SELECT
+  2      E.EVENT_ID,
+  3      E.ENTRY_NO,
+  4      C.COMP_FNAME,
+  5      C.COMP_LNAME,
+  6      T.TEAM_NAME,
+  7      CH.CHAR_NAME,
+  8      EC.CHARITY_PERCENTAGE
+  9  FROM
+ 10           ENTRY E
+ 11      JOIN COMPETITOR    C ON E.COMP_NO = C.COMP_NO
+ 12      LEFT JOIN TEAM          T ON E.TEAM_ID = T.TEAM_ID
+ 13      LEFT JOIN ENTRY_CHARITY EC ON E.EVENT_ID = EC.EVENT_ID
+ 14                                    AND E.ENTRY_NO = EC.ENTRY_NO
+ 15      LEFT JOIN CHARITY       CH ON EC.CHAR_ID = CH.CHAR_ID
+ 16  WHERE
+ 17      E.COMP_NO = 17;
+no rows selected
+SQL> 
+SQL> SELECT
+  2      TEAM_ID,
+  3      TEAM_NAME,
+  4      CARN_DATE
+  5  FROM
+  6      TEAM
+  7  WHERE
+  8      UPPER(TEAM_NAME) = UPPER('Genius League');
+
+   TEAM_ID TEAM_NAME                      CARN_DAT
+---------- ------------------------------ --------
+       105 Genius League                  29/06/25
+
+SQL> 
+SQL> -- Execute procedure
+SQL> DECLARE
+  2      V_OUTPUT VARCHAR2(1000);
+  3  BEGIN
+  4      PRC_ENTRY_REGISTRATION(17, -- comp_no (Snorlax Sullivan)
+  5       'RM Winter Series Caulfield 2025', -- carn_name
+  6       '5 Km Run', -- event_type_desc
+  7       'Genius League', -- team_name
+  8       NULL, -- no charity
+  9                             V_OUTPUT);
+ 10      DBMS_OUTPUT.PUT_LINE(V_OUTPUT);
+ 11  END;
+ 12  /
+Added to existing team Genius League for carnival RM Winter Series Caulfield 2025
+No charity supported
+Successfully registered competitor 17 for event 5 Km Run at carnival RM Winter Series Caulfield 2025 with entry number 4
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- After values
+SQL> SELECT
+  2      E.EVENT_ID,
+  3      E.ENTRY_NO,
+  4      C.COMP_FNAME,
+  5      C.COMP_LNAME,
+  6      T.TEAM_NAME,
+  7      CH.CHAR_NAME,
+  8      EC.CHARITY_PERCENTAGE
+  9  FROM
+ 10           ENTRY E
+ 11      JOIN COMPETITOR    C ON E.COMP_NO = C.COMP_NO
+ 12      LEFT JOIN TEAM          T ON E.TEAM_ID = T.TEAM_ID
+ 13      LEFT JOIN ENTRY_CHARITY EC ON E.EVENT_ID = EC.EVENT_ID
+ 14                                    AND E.ENTRY_NO = EC.ENTRY_NO
+ 15      LEFT JOIN CHARITY       CH ON EC.CHAR_ID = CH.CHAR_ID
+ 16  WHERE
+ 17      E.COMP_NO = 17;
+
+  EVENT_ID   ENTRY_NO COMP_FNAME                     COMP_LNAME                     TEAM_NAME                      CHAR_NAME                      CHARITY_PERCENTAGE
+---------- ---------- ------------------------------ ------------------------------ ------------------------------ ------------------------------ ------------------
+        12          4 Snorlax                        Sullivan                       Genius League                                                                   
+
+SQL> 
+SQL> SELECT
+  2      TEAM_ID,
+  3      TEAM_NAME,
+  4      CARN_DATE
+  5  FROM
+  6      TEAM
+  7  WHERE
+  8      UPPER(TEAM_NAME) = UPPER('Genius League');
+
+   TEAM_ID TEAM_NAME                      CARN_DAT
+---------- ------------------------------ --------
+       105 Genius League                  29/06/25
+
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> -- Test 4: Invalid competitor
+SQL> 
+SQL> -- Before values (should be no change)
+SQL> SELECT
+  2      *
+  3  FROM
+  4      COMPETITOR
+  5  WHERE
+  6      COMP_NO = 9999;
+no rows selected
+SQL> 
+SQL> -- Execute procedure
+SQL> DECLARE
+  2      V_OUTPUT VARCHAR2(1000);
+  3  BEGIN
+  4      PRC_ENTRY_REGISTRATION(9999, 
+  5       'RM Winter Series Caulfield 2025', 
+  6       '5 Km Run', 
+  7       NULL, 
+  8       NULL, 
+  9                             V_OUTPUT);
+ 10      DBMS_OUTPUT.PUT_LINE(V_OUTPUT);
+ 11  END;
+ 12  /
+Competitor 9999 does not exist
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- After values (should be same as before)
+SQL> SELECT
+  2      *
+  3  FROM
+  4      COMPETITOR
+  5  WHERE
+  6      COMP_NO = 9999;
+no rows selected
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> -- Test 5: Invalid carnival
+SQL> 
+SQL> -- Before values (should be no change)
+SQL> SELECT
+  2      *
+  3  FROM
+  4      CARNIVAL
+  5  WHERE
+  6      UPPER(CARN_NAME) = 'RM Hot Series Malaysia 2099';
+no rows selected
+SQL> 
+SQL> -- Execute procedure
+SQL> DECLARE
+  2      V_OUTPUT VARCHAR2(1000);
+  3  BEGIN
+  4      PRC_ENTRY_REGISTRATION(16, 
+  5       'RM Hot Series Malaysia 2099', 
+  6       '5 Km Run', 
+  7       NULL, 
+  8       NULL, 
+  9                             V_OUTPUT);
+ 10      DBMS_OUTPUT.PUT_LINE(V_OUTPUT);
+ 11  END;
+ 12  /
+Carnival RM Hot Series Malaysia 2099 does not exist
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- After values (should be same as before)
+SQL> SELECT
+  2      *
+  3  FROM
+  4      CARNIVAL
+  5  WHERE
+  6      UPPER(CARN_NAME) = 'RM Hot Series Malaysia 2099';
+no rows selected
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> -- Test 6: Invalid event type
+SQL> 
+SQL> -- Before values (should be no change)
+SQL> SELECT
+  2      *
+  3  FROM
+  4      EVENTTYPE
+  5  WHERE
+  6      UPPER(EVENTTYPE_DESC) = '100K';
+no rows selected
+SQL> 
+SQL> -- Execute procedure
+SQL> DECLARE
+  2      V_OUTPUT VARCHAR2(1000);
+  3  BEGIN
+  4      PRC_ENTRY_REGISTRATION(16, 
+  5       'RM Winter Series Caulfield 2025', 
+  6       '100 Km Run', 
+  7       NULL, 
+  8       NULL, 
+  9                             V_OUTPUT);
+ 10      DBMS_OUTPUT.PUT_LINE(V_OUTPUT);
+ 11  END;
+ 12  /
+Event type 100 Km Run does not exist
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- After values (should be same as before)
+SQL> SELECT
+  2      *
+  3  FROM
+  4      EVENTTYPE
+  5  WHERE
+  6      UPPER(EVENTTYPE_DESC) = '100K';
+no rows selected
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> -- Test 7: Invalid charity
+SQL> 
+SQL> -- Before values (should be no change)
+SQL> SELECT
+  2      *
+  3  FROM
+  4      CHARITY
+  5  WHERE
+  6      UPPER(CHAR_NAME) = UPPER('Young Charity');
+no rows selected
+SQL> 
+SQL> -- Execute procedure
+SQL> DECLARE
+  2      V_OUTPUT VARCHAR2(1000);
+  3  BEGIN
+  4      PRC_ENTRY_REGISTRATION(16, -- Wartortle Warles competitor
+  5       'RM Winter Series Caulfield 2025', 
+  6       '5 Km Run', 
+  7       NULL, 
+  8       'Young Charity',
+  9                             V_OUTPUT);
+ 10      DBMS_OUTPUT.PUT_LINE(V_OUTPUT);
+ 11  END;
+ 12  /
+Competitor 16 already registered for carnival RM Winter Series Caulfield 2025
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- After values (should be same as before)
+SQL> SELECT
+  2      *
+  3  FROM
+  4      CHARITY
+  5  WHERE
+  6      UPPER(CHAR_NAME) = UPPER('Young Charity');
+no rows selected
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> SET ECHO OFF
